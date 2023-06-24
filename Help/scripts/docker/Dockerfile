@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+LABEL author=Chimezie 
+
 # Forces the selection of US Eastern Standard time Zone. 
 ENV TZ=US/Eastern \
     DEBIAN_FRONTEND=noninteractive
@@ -20,7 +22,7 @@ RUN apt update \
 WORKDIR /tools/lab
 
 # Install text editors
-RUN apt install -y nano \
+RUN sudo apt install -y nano \
     && apt install -y vim \
     && apt update && apt install -y gedit 
    
@@ -56,8 +58,8 @@ RUN sudo apt-get update \
     && sudo apt-get -y install libesedb-utils
 
 # Install liblnk-utils
-RUN apt-get update 
-RUN apt-get install -y liblnk-utils || { echo 'Package installation failed'; exit 1; }
+RUN sudo apt-get update 
+RUN sudo apt-get install -y liblnk-utils || { echo 'Package installation failed'; exit 1; }
 
 # Install usncarve
 RUN sudo apt-get update  \
@@ -368,10 +370,6 @@ RUN cp tools/stegdetect/stegdetect /usr/bin/. \
     && cp tools/stegdetect/stegbreak /usr/bin/.
 
 WORKDIR /
-
-# Set the entrypoint as an interactive shell
-ENTRYPOINT ["/bin/bash"]
-
 
 # Verify installations
 RUN wine --version
